@@ -44,4 +44,4 @@ create-discord-bot
 
 ### Contributions
 
-Contributions are welcomed, I am looking forward to add more languages and library support!
+Contributions are welcomed, I am looking forward to add more languages and libraries support!
