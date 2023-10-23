@@ -4,6 +4,10 @@
   <img src="https://i.imgur.com/ODfMO7F.gif" alt="Demo" />
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/crates/d/create-discord-bot?color=C04000" />
+</p>
+
 ### Overview
 
 This is a blazing fast ⚡, command line tool generates boiler-plate code for building a discord bot.
