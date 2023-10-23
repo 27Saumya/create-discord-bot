@@ -16,6 +16,8 @@ keywords = [
 	"discord-bot",
     "command-line"
 ]
+categories = ["command-line-interface"]
+license = "MIT"
 
 [dependencies]
 dialoguer = "0.11.0"
