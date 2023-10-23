@@ -1,0 +1,15 @@
+[package]
+name = "create-discord-bot"
+version = "0.1.0"
+edition = "2021"
+include = [
+	"src/**/*",
+	"Cargo.toml",
+	"README.md",
+	"LICENSE"
+]
+
+[dependencies]
+dialoguer = "0.11.0"
+console = "0.15.7"
+colored = "2.0.4"
