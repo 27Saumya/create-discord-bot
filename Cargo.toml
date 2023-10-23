@@ -8,6 +8,14 @@ include = [
 	"README.md",
 	"LICENSE"
 ]
+homepage = "https://github.com/27Saumya/create-discord-bot"
+description = "Simple command line tool to get boilerplate code for building a discord bot!"
+repository = "https://github.com/27Saumya/create-discord-bot"
+keywords = [
+	"cli",
+	"discord-bot",
+    "command-line"
+]
 
 [dependencies]
 dialoguer = "0.11.0"
