@@ -15,6 +15,7 @@ pub fn select_options() {
     let cog = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Choose whether you would like to use cogs/extensions (Recommended)")
         .items(&cogs)
+        .default(0)
         .interact()
         .expect("Failed to get user input");
 
