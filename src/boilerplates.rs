@@ -51,6 +51,69 @@ class Example(commands.Cog):
 def setup(bot):
     bot.add_cog(Example(bot))";
 
+pub const PYTHON_DISNAKE_MAINFILE_CONTENT: &str =
+"import disnake
+from disnake.ext import commands
+
+intents = disnake.Intents.default()
+
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix='!',
+            intents=intents
+        )
+
+    async def on_ready(self):
+        print(f'{self.user.name} has logged in!')
+
+if __name__ == '__main__':
+    bot = Bot()
+    bot.run('YOUR_BOT_TOKEN')
+";
+
+pub const PYTHON_DISNAKE_MAINFILE_COG_CONTENT: &str =
+"import disnake
+from disnake.ext import commands
+from cogs.example import Example
+
+intents = disnake.Intents.default()
+
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix='!',
+            intents=intents
+        )
+
+        self.add_cog(Example(self))
+
+    async def on_ready(self):
+        print(f'{self.user.name} has logged in!')
+
+if __name__ == '__main__':
+    bot = Bot()
+    bot.run('YOUR_BOT_TOKEN')
+";
+
+pub const PYTHON_DISNAKE_COG_EXAMPLE_CONTENT: &str =
+"from disnake.ext import commands
+
+class Example(commands.Cog):
+    def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print('Example cog has loaded!')
+
+    @commands.command()
+    async def ping(self, ctx: commands.Context):
+        await ctx.send('Pong!')
+
+def setup(bot: commands.Bot):
+    bot.add_cog(Example(bot))
+";
 
 pub const JS_MAINFILE_CONTENT: &str =
 "// Require the necessary discord.js classes
