@@ -19,11 +19,14 @@ bot.run('BOT_TOKEN')";
 pub const PYTHON_MAINFILE_COG_CONTENT: &str =
 "import discord
 from discord.ext import commands
+from cogs.example import Example
 
 
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix='!', intents=discord.Intents.default())
+
+        self.add_cog(Example(self))
 
     async def on_ready(self):
         print(f'{self.user.name} has logged in!')
