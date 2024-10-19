@@ -49,6 +49,38 @@ pub fn generate_python_boilerplate(cog: usize) {
     )
 }
 
+pub fn generate_python_disnake_boilerplate(cog: usize) {
+    let chose_cog = check_cog(cog);
+
+    if Path::new("main.py").exists() {
+        println!("{}", error_message("\nmain.py file already exists!"));
+        return;
+    }
+
+    if chose_cog {
+        if Path::new("./cogs").exists() {
+            println!("{}", error_message("Cogs directory already exists!"));
+            return;
+        }
+
+        let _ = create_dir("./cogs/").expect(&error_message("Failed to create cogs/ directory"));
+
+        let mut cog_example_file = File::create("./cogs/example.py")
+            .expect(&error_message("Failed to create cogs example file"));
+
+        let _ = cog_example_file.write_all(PYTHON_DISNAKE_COG_EXAMPLE_CONTENT.as_bytes());
+
+        let mut main_file =
+            File::create("main.py").expect(&error_message("Failed to create main.py file"));
+
+        let _ = main_file.write_all(PYTHON_DISNAKE_MAINFILE_COG_CONTENT.as_bytes());
+    } else {
+        let mut main_file = File::create("main.py")
+            .expect(&error_message("Failed to create main.py file"));
+        let _ = main_file.write_all(PYTHON_DISNAKE_MAINFILE_CONTENT.as_bytes());
+    }
+}
+
 pub fn generate_js_boilerplate(cog: usize) {
     let chose_cog = check_cog(cog);
     const REQUIRED_FILES: [&str; 2] = ["main.js", "config.js"];

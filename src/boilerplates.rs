@@ -1,65 +1,124 @@
-pub const PYTHON_MAINFILE_CONTENT: &str = 
+pub const PYTHON_MAINFILE_CONTENT: &str =
 "import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='!', 
-                   intents=discord.Intents.default())
-
+bot = commands.Bot(command_prefix='!', intents=discord.Intents.default())
 
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has logged in!')
-    
+
 
 @bot.command()
 async def ping(ctx: commands.Context):
     await ctx.send('Pong!')
-    
+
 
 bot.run('BOT_TOKEN')";
 
-pub const PYTHON_MAINFILE_COG_CONTENT: &str = 
+pub const PYTHON_MAINFILE_COG_CONTENT: &str =
 "import discord
 from discord.ext import commands
+from cogs.example import Example
 
 
 class Bot(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix='!',
-                         intents=discord.Intents.default())
-        
-    
+        super().__init__(command_prefix='!', intents=discord.Intents.default())
+
+        self.add_cog(Example(self))
+
     async def on_ready(self):
         print(f'{self.user.name} has logged in!')
-        
+
 
 bot = Bot()
 
 bot.run('TOKEN')";
 
-pub const PYTHON_COG_EXAMPLE_CONTENT: &str = 
+pub const PYTHON_COG_EXAMPLE_CONTENT: &str =
 "from discord.ext import commands
 
 class Example(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print('Example cog has loaded!')
+
+    @commands.command()
+    async def ping(self, ctx: commands.Context):
+        await ctx.send('Pong!')
+
+def setup(bot):
+    bot.add_cog(Example(bot))";
+
+pub const PYTHON_DISNAKE_MAINFILE_CONTENT: &str =
+"import disnake
+from disnake.ext import commands
+
+intents = disnake.Intents.default()
+
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix='!',
+            intents=intents
+        )
+
+    async def on_ready(self):
+        print(f'{self.user.name} has logged in!')
+
+if __name__ == '__main__':
+    bot = Bot()
+    bot.run('YOUR_BOT_TOKEN')
+";
+
+pub const PYTHON_DISNAKE_MAINFILE_COG_CONTENT: &str =
+"import disnake
+from disnake.ext import commands
+from cogs.example import Example
+
+intents = disnake.Intents.default()
+
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(
+            command_prefix='!',
+            intents=intents
+        )
+
+        self.add_cog(Example(self))
+
+    async def on_ready(self):
+        print(f'{self.user.name} has logged in!')
+
+if __name__ == '__main__':
+    bot = Bot()
+    bot.run('YOUR_BOT_TOKEN')
+";
+
+pub const PYTHON_DISNAKE_COG_EXAMPLE_CONTENT: &str =
+"from disnake.ext import commands
+
+class Example(commands.Cog):
+    def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
 
     @commands.Cog.listener()
     async def on_ready(self):
         print('Example cog has loaded!')
-        
-    
+
     @commands.command()
     async def ping(self, ctx: commands.Context):
         await ctx.send('Pong!')
-        
-        
-def setup(bot):
-    bot.add_cog(Example(bot))";
 
+def setup(bot: commands.Bot):
+    bot.add_cog(Example(bot))
+";
 
-pub const JS_MAINFILE_CONTENT: &str = 
+pub const JS_MAINFILE_CONTENT: &str =
 "// Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
@@ -76,7 +135,7 @@ client.once(Events.ClientReady, c => {
 // Log in to Discord with your client's token
 client.login(token);";
 
-pub const JS_MAINFILE_COG_CONTENT: &str = 
+pub const JS_MAINFILE_COG_CONTENT: &str =
 "// Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
@@ -112,7 +171,7 @@ edition = '2018'
 serenity = { path = '../../', default-features = false, features = ['client', 'gateway', 'rustls_backend', 'model'] }
 tokio = { version = '1.0', features = ['macros', 'rt-multi-thread'] }";
 
-pub const RUST_MAINFILE_CONTENT: &str = 
+pub const RUST_MAINFILE_CONTENT: &str =
 "use std::env;
 
 use serenity::async_trait;
@@ -287,7 +346,7 @@ async fn main() {
     }
 }";
 
-pub const RUST_EXAMPLE_COG_CONTENT: &str = 
+pub const RUST_EXAMPLE_COG_CONTENT: &str =
 "use serenity::framework::standard::macros::command;
 use serenity::framework::standard::{Args, CommandResult};
 use serenity::model::prelude::*;

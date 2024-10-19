@@ -39,6 +39,7 @@ create-discord-bot
 ### Languages Support
 
 - Python: [discord.py](https://github.com/Rapptz/discord.py)
+- Python: [disnake](https://github.com/DisnakeDev/disnake)
 - Javascript: [discord.js](https://github.com/discordjs/discord.js)
 - Rust: [serenity](https://github.com/serenity-rs/serenity)
 
