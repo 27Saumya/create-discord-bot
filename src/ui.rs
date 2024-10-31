@@ -7,7 +7,8 @@ pub fn select_options() {
         "Python - discord.py",
         "Python - disnake (fork of discord.py)",
         "JavaScript - discord.js",
-        "Rust - serenity"
+        "Rust - serenity",
+        "Go - discordgo",
     ];
     let cogs = vec!["Yes", "No"];
 
@@ -29,6 +30,7 @@ pub fn select_options() {
         1 => generate_python_disnake_boilerplate(cog),
         2 => generate_js_boilerplate(cog),
         3 => generate_rust_boilerplate(cog),
+        4 => generate_go_boilerplate(cog),
         _ => println!("Invalid selection"),
     }
 }
