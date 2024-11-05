@@ -363,3 +363,151 @@ pub async fn multiply(ctx: &Context, msg: &Message, mut args: Args) -> CommandRe
 
     Ok(())
 }";
+
+pub const GO_MAINFILE_CONTENT: &str =
+r###"package main
+
+import (
+	"fmt"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
+
+	"github.com/bwmarrin/discordgo"
+)
+
+const PREFIX = "!"
+
+func main() {
+	discord, err := discordgo.New("Bot " + "YOUR TOKEN HERE")
+
+	if err != nil {
+		fmt.Println("Error creating Discord session: ", err)
+		panic(err)
+	}
+
+	discord.AddHandler(onReady)
+	discord.AddHandler(messageCreate)
+
+	discord.Identify.Intents = discordgo.IntentsGuildMessages
+
+	err = discord.Open()
+	if err != nil {
+		fmt.Println("error opening connection,", err)
+		return
+	}
+
+	fmt.Println("Bot is now running. Press CTRL-C to exit.")
+
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	<-sc
+
+	discord.Close()
+}
+
+func onReady(s *discordgo.Session, event *discordgo.Ready) {
+	fmt.Println("Logged in as", event.User.Username, '#', event.User.Discriminator)
+
+	s.UpdateListeningStatus("you!")
+}
+
+func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+    if m.Author.ID == s.State.User.ID {
+        return
+    }
+
+    if strings.HasPrefix(m.Content, PREFIX) {
+        if m.Content == PREFIX+"ping" {
+            s.ChannelMessageSend(m.ChannelID, "Pong!")
+        }
+    }
+}"###;
+
+pub const GO_MAINFILE_COG_CONTENT: &str =
+r###"package main
+
+import (
+	"fmt"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
+
+	"github.com/bwmarrin/discordgo"
+)
+
+const PREFIX = "!"
+
+func main() {
+	discord, err := discordgo.New("Bot " + "YOUR TOKEN HERE")
+
+	if err != nil {
+		fmt.Println("Error creating Discord session: ", err)
+		panic(err)
+	}
+
+	discord.AddHandler(onReady)
+	discord.AddHandler(messageCreate)
+
+	discord.Identify.Intents = discordgo.IntentsGuildMessages
+
+	err = discord.Open()
+	if err != nil {
+		fmt.Println("error opening connection,", err)
+		return
+	}
+
+	fmt.Println("Bot is now running. Press CTRL-C to exit.")
+
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	<-sc
+
+	discord.Close()
+}
+
+func onReady(s *discordgo.Session, event *discordgo.Ready) {
+	fmt.Println("Logged in as", event.User.Username, '#', event.User.Discriminator)
+
+	s.UpdateListeningStatus("you!")
+}
+
+func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID == s.State.User.ID {
+		return
+	}
+
+	if strings.HasPrefix(m.Content, PREFIX) {
+		commandName := strings.TrimPrefix(m.Content, PREFIX)
+		callback, ok := commands[commandName]
+		fmt.Println(callback, ok)
+
+		if !ok {
+			return
+		}
+
+		callback(s, m)
+	}
+}
+"###;
+
+pub const GO_EXAMPLE_COG_CONTENT: &str =
+r###"package main
+
+import "github.com/bwmarrin/discordgo"
+
+// You can name this category however you want
+var commands = map[string]func(s *discordgo.Session, m *discordgo.MessageCreate){
+	"ping": func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		s.ChannelMessageSend(m.ChannelID, "Pong!")
+	},
+	"pong": func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		s.ChannelMessageSend(m.ChannelID, "Ping!")
+	},
+	"echo": func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		s.ChannelMessageSend(m.ChannelID, m.Content)
+	},
+}
+"###;

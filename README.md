@@ -42,6 +42,7 @@ create-discord-bot
 - Python: [disnake](https://github.com/DisnakeDev/disnake)
 - Javascript: [discord.js](https://github.com/discordjs/discord.js)
 - Rust: [serenity](https://github.com/serenity-rs/serenity)
+- Go: [Go](https://github.com/bwmarrin/discordgo)
 
 ### Contributions
 

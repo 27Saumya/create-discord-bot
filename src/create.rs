@@ -204,3 +204,34 @@ pub fn generate_rust_boilerplate(cog: usize) {
         success_message("\nSuccessfully created your serenity project, happy coding!")
     )
 }
+
+pub fn generate_go_boilerplate(cog: usize) {
+    let chose_cog = check_cog(cog);
+
+    if Path::new("main.go").exists() {
+        println!("{}", error_message("\nmain.go file already exists!"));
+        return;
+    }
+
+    if chose_cog {
+        let mut cog_example_file = File::create("example.go")
+            .expect(&error_message("Failed to create example.go file"));
+
+        let _ = cog_example_file.write_all(GO_EXAMPLE_COG_CONTENT.as_bytes());
+
+        let mut main_file = File::create("main.go")
+            .expect(&error_message("Failed to create main.go file"));
+
+        let _ = main_file.write_all(GO_MAINFILE_COG_CONTENT.as_bytes());
+    } else {
+        let mut main_file = File::create("main.go")
+            .expect(&error_message("Failed to create main.go file"));
+
+        let _ = main_file.write_all(GO_MAINFILE_CONTENT.as_bytes());
+    }
+
+    println!(
+        "{}",
+        success_message("\nSuccessfully created your discordgo project, happy coding!\nRemember to do `go mod init <module-name>` to initialize your go module!")
+    )
+}
